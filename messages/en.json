@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "team": "Our Team",
+    "services": "Services",
+    "famousClients": "Famous Clients",
+    "blog": "Articles",
+    "faq": "FAQ",
+    "contact": "Contact Us",
+    "attorneyAbroad": "Attorney for Iranians Abroad"
+  },
+  "home": {
+    "heroTitle": "Be mercilessly honest",
+    "heroSubtitle": "Nobel Justice Group",
+    "heroCtaPrimary": "Free Consultation",
+    "heroCtaSecondary": "Learn More",
+    "aboutTitle": "About Us",
+    "aboutText": "Nobel Justice Group, with over 15 years of experience in international and domestic law, is ready to provide you with the best legal services.",
+    "aboutCta": "Learn More",
+    "famousClientsTitle": "Famous Clients",
+    "attorneyAbroadTitle": "Attorney for Iranians Abroad",
+    "attorneyAbroadText": "With over a decade of experience representing Iranians abroad, we provide comprehensive legal solutions for our compatriots around the world.",
+    "attorneyAbroadCta": "Read More",
+    "internationalTitle": "International Legal Services",
+    "clientsTitle": "Our Clients",
+    "blogTitle": "Articles",
+    "blogCta": "View All",
+    "faqTitle": "Frequently Asked Questions",
+    "faqCta": "View All Questions",
+    "consultationTitle": "Book Your Private Consultation",
+    "consultationCta": "Book Consultation",
+    "valuesTitle": "Our Core Values"
+  },
+  "about": {
+    "title": "About Us",
+    "heroTitle": "Nobel Justice Group",
+    "heroSubtitle": "Building bridges between challenges and opportunities",
+    "missionTitle": "Our Mission",
+    "missionSubtitle": "Providing advanced legal intelligence and full transparency at an international level",
+    "partnersTitle": "Our Global Partners"
+  },
+  "team": {
+    "title": "Our Team",
+    "readMore": "Read More",
+    "contactCta": "Contact Us"
+  },
+  "famousClients": {
+    "title": "Famous Clients",
+    "subtitle": "Successful cases and justice in major crimes and criminal defense"
+  },
+  "attorneyAbroad": {
+    "title": "Attorney for Iranians Abroad",
+    "subtitle": "Legal Topics for Iranians Outside Iran",
+    "consultationCta": "Book Consultation"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "consultationCta": "Book Consultation"
+  },
+  "blog": {
+    "title": "Articles",
+    "readMore": "Read More",
+    "relatedTitle": "Related Articles"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "heroTitle": "Contact Nobel Justice Group",
+    "heroText": "We operate with full confidentiality. To book a private consultation or inquire about a case, please get in touch.",
+    "formTitle": "Send a Message",
+    "namePlaceholder": "First Name",
+    "lastNamePlaceholder": "Full Name",
+    "emailPlaceholder": "Email",
+    "phonePlaceholder": "Phone Number",
+    "subjectPlaceholder": "Select a Subject",
+    "messagePlaceholder": "Your Message",
+    "submitCta": "Book Consultation",
+    "addressLabel": "Address",
+    "phoneLabel": "Phone",
+    "address": "Iran, Tehran, Andarzgoo & North Pasdaran intersection, Farmaniyeh crossroads, Narenjestan 7th, Block 2, Floor 3, Unit 31",
+    "phone1": "(+98) 21-22667763",
+    "phone2": "(+98) 92-100"
+  },
+  "footer": {
+    "support": "Support",
+    "hours": "Sat–Thu 13:00–17:00",
+    "legalInfo": "Legal Information",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "disclaimer": "Disclaimer",
+    "contactUs": "Contact Us",
+    "copyright": "© 2024 Nobel Justice Group. All rights reserved."
+  },
+  "values": {
+    "honesty": "Honesty & Transparency",
+    "honestyDesc": "We are fully committed to honesty with our clients",
+    "expertise": "Expertise & Knowledge",
+    "expertiseDesc": "Years of experience in international and domestic law",
+    "trust": "Trustworthiness",
+    "trustDesc": "Maintaining client confidentiality and professional ethics",
+    "innovation": "Innovation",
+    "innovationDesc": "Using modern methods in providing legal services"
+  }
+}
