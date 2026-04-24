@@ -4,6 +4,8 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Vazirmatn, Inter } from 'next/font/google'
 import { routing } from '@/i18n/routing'
+import Navbar from '@/components/layout/Navbar'
+import Footer from '@/components/layout/Footer'
 import '../globals.css'
 
 const vazirmatn = Vazirmatn({
@@ -49,7 +51,9 @@ export default async function LocaleLayout({
         className={`bg-navy text-cream antialiased ${isRtl ? 'font-vazirmatn' : 'font-inter'}`}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
