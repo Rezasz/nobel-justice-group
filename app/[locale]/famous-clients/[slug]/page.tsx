@@ -1,21 +1,25 @@
 import { notFound } from 'next/navigation'
-import { useTranslations } from 'next-intl'
-import { famousClients } from '@/data/clients'
+import { getTranslations } from 'next-intl/server'
+import { getClients } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import Container from '@/components/shared/Container'
 import ClientCard from '@/components/shared/ClientCard'
 
-export function generateStaticParams() {
-  return famousClients.map((c) => ({ slug: c.slug }))
+export async function generateStaticParams() {
+  const famousClients = await getClients()
+  return famousClients.flatMap((c) =>
+    (['fa', 'en'] as const).map((locale) => ({ locale, slug: c.slug }))
+  )
 }
 
-export default function FamousClientDetailPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function FamousClientDetailPage({ params }: { params: { slug: string; locale: string } }) {
+  const famousClients = await getClients()
   const client = famousClients.find((c) => c.slug === params.slug)
   if (!client) notFound()
 
   const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
-  const t = useTranslations('famousClients')
+  const t = await getTranslations('famousClients')
   const related = famousClients.filter((c) => c.slug !== client.slug).slice(0, 4)
 
   return (

@@ -1,19 +1,23 @@
 import { notFound } from 'next/navigation'
-import { useTranslations } from 'next-intl'
-import { team } from '@/data/team'
+import { getTranslations } from 'next-intl/server'
+import { getTeam } from '@/lib/content'
 import Container from '@/components/shared/Container'
 import Button from '@/components/shared/Button'
 import TeamCard from '@/components/shared/TeamCard'
 
-export function generateStaticParams() {
-  return team.map((m) => ({ slug: m.slug }))
+export async function generateStaticParams() {
+  const team = await getTeam()
+  return team.flatMap((m) =>
+    (['fa', 'en'] as const).map((locale) => ({ locale, slug: m.slug }))
+  )
 }
 
-export default function TeamDetailPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function TeamDetailPage({ params }: { params: { slug: string; locale: string } }) {
+  const team = await getTeam()
   const member = team.find((m) => m.slug === params.slug)
   if (!member) notFound()
 
-  const t = useTranslations('team')
+  const t = await getTranslations('team')
   const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
   const colleagues = team.filter((m) => m.slug !== member.slug).slice(0, 3)

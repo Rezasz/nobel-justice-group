@@ -1,16 +1,17 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { team } from '@/data/team'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getTeam } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import SectionTitle from '@/components/shared/SectionTitle'
 import Container from '@/components/shared/Container'
 import TeamCard from '@/components/shared/TeamCard'
 import Button from '@/components/shared/Button'
 
-export default function AboutPage() {
-  const t = useTranslations('about')
-  const teamT = useTranslations('team')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function AboutPage() {
+  const t = await getTranslations('about')
+  const teamT = await getTranslations('team')
+  const locale = (await getLocale()) as 'fa' | 'en'
   const base = `/${locale}`
+  const team = await getTeam()
   const preview = team.slice(0, 3)
 
   return (

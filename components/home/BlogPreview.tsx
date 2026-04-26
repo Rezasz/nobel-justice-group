@@ -1,14 +1,15 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { blogPosts } from '@/data/blog'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getBlog } from '@/lib/content'
 import BlogCard from '@/components/shared/BlogCard'
 import SectionTitle from '@/components/shared/SectionTitle'
 import Container from '@/components/shared/Container'
 import Button from '@/components/shared/Button'
 
-export default function BlogPreview() {
-  const t = useTranslations('home')
-  const blog = useTranslations('blog')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function BlogPreview() {
+  const t = await getTranslations('home')
+  const blog = await getTranslations('blog')
+  const locale = (await getLocale()) as 'fa' | 'en'
+  const blogPosts = await getBlog()
   const latest = blogPosts.slice(0, 3)
 
   return (

@@ -8,13 +8,15 @@ import BlogPreview from '@/components/home/BlogPreview'
 import FAQPreview from '@/components/home/FAQPreview'
 import ConsultationCTA from '@/components/home/ConsultationCTA'
 import CoreValues from '@/components/home/CoreValues'
+import { getClients } from '@/lib/content'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const clients = await getClients()
   return (
     <>
       <Hero />
       <AboutSnippet />
-      <FamousClientsCarousel />
+      <FamousClientsCarousel clients={clients} />
       <AttorneyAbroadBanner />
       <InternationalOffices />
       <ClientLogos />

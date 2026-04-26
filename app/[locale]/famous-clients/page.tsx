@@ -1,13 +1,14 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { famousClients } from '@/data/clients'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getClients } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import ClientCard from '@/components/shared/ClientCard'
 import Container from '@/components/shared/Container'
 
-export default function FamousClientsPage() {
-  const t = useTranslations('famousClients')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function FamousClientsPage() {
+  const t = await getTranslations('famousClients')
+  const locale = (await getLocale()) as 'fa' | 'en'
   const base = `/${locale}`
+  const famousClients = await getClients()
 
   return (
     <>

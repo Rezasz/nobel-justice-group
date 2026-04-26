@@ -1,21 +1,26 @@
 import { notFound } from 'next/navigation'
-import { useTranslations } from 'next-intl'
-import { blogPosts } from '@/data/blog'
+import { getTranslations } from 'next-intl/server'
+import { getBlog } from '@/lib/content'
+import { marked } from 'marked'
 import Container from '@/components/shared/Container'
 import BlogCard from '@/components/shared/BlogCard'
 
-export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: p.slug }))
+export async function generateStaticParams() {
+  const posts = await getBlog()
+  return posts.flatMap((p) =>
+    (['fa', 'en'] as const).map((locale) => ({ locale, slug: p.slug }))
+  )
 }
 
-export default function BlogDetailPage({ params }: { params: { slug: string; locale: string } }) {
-  const post = blogPosts.find((p) => p.slug === params.slug)
+export default async function BlogDetailPage({ params }: { params: { slug: string; locale: string } }) {
+  const posts = await getBlog()
+  const post = posts.find((p) => p.slug === params.slug)
   if (!post) notFound()
 
   const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
-  const t = useTranslations('blog')
-  const related = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 3)
+  const t = await getTranslations('blog')
+  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3)
 
   return (
     <>
@@ -37,7 +42,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string; loc
       </section>
       <section className="py-16 bg-navy">
         <Container size="md">
-          <p className="text-cream/80 leading-relaxed text-lg">{post.body[locale]}</p>
+          <div dangerouslySetInnerHTML={{ __html: marked.parse(post.body[locale] ?? '') as string }} />
         </Container>
       </section>
       <section className="py-16 bg-navy-light">

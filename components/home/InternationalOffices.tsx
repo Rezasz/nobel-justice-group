@@ -1,12 +1,13 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { officeCities } from '@/data/services'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getOffices } from '@/lib/content'
 import CityCard from '@/components/shared/CityCard'
 import SectionTitle from '@/components/shared/SectionTitle'
 import Container from '@/components/shared/Container'
 
-export default function InternationalOffices() {
-  const t = useTranslations('home')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function InternationalOffices() {
+  const t = await getTranslations('home')
+  const locale = (await getLocale()) as 'fa' | 'en'
+  const officeCities = await getOffices()
 
   return (
     <section className="py-20 bg-navy">

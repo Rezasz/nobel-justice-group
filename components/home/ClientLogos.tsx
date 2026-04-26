@@ -1,10 +1,11 @@
-import { useTranslations } from 'next-intl'
-import { partners } from '@/data/partners'
+import { getTranslations } from 'next-intl/server'
+import { getPartners } from '@/lib/content'
 import SectionTitle from '@/components/shared/SectionTitle'
 import Container from '@/components/shared/Container'
 
-export default function ClientLogos() {
-  const t = useTranslations('home')
+export default async function ClientLogos() {
+  const t = await getTranslations('home')
+  const partners = await getPartners()
 
   return (
     <section className="py-16 bg-navy-light">

@@ -1,13 +1,14 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { blogPosts } from '@/data/blog'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getBlog } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import BlogCard from '@/components/shared/BlogCard'
 import Container from '@/components/shared/Container'
 
-export default function BlogPage() {
-  const t = useTranslations('blog')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function BlogPage() {
+  const t = await getTranslations('blog')
+  const locale = (await getLocale()) as 'fa' | 'en'
   const base = `/${locale}`
+  const blogPosts = await getBlog()
 
   return (
     <>

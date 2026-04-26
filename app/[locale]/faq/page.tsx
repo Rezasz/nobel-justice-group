@@ -1,14 +1,15 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { faqItems } from '@/data/faq'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getFaq } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import Accordion from '@/components/shared/Accordion'
 import Container from '@/components/shared/Container'
 import Button from '@/components/shared/Button'
 
-export default function FaqPage() {
-  const t = useTranslations('faq')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function FaqPage() {
+  const t = await getTranslations('faq')
+  const locale = (await getLocale()) as 'fa' | 'en'
   const base = `/${locale}`
+  const faqItems = await getFaq()
   const items = faqItems.map((item) => ({
     id: item.id,
     question: item.question[locale],

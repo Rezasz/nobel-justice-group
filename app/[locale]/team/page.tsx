@@ -1,13 +1,14 @@
-import { useTranslations, useLocale } from 'next-intl'
-import { team } from '@/data/team'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getTeam } from '@/lib/content'
 import PageHero from '@/components/shared/PageHero'
 import TeamCard from '@/components/shared/TeamCard'
 import Container from '@/components/shared/Container'
 
-export default function TeamPage() {
-  const t = useTranslations('team')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function TeamPage() {
+  const t = await getTranslations('team')
+  const locale = (await getLocale()) as 'fa' | 'en'
   const base = `/${locale}`
+  const team = await getTeam()
 
   return (
     <>
