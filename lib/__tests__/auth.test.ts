@@ -1,6 +1,6 @@
 process.env.ADMIN_JWT_SECRET = 'test-secret-that-is-32-chars-long!!'
 
-import { signAdminToken, verifyAdminToken } from '../auth'
+import { signAdminToken, verifyAdminToken, isAuthenticated } from '../auth'
 import * as jwt from 'jsonwebtoken'
 
 describe('auth', () => {
@@ -27,5 +27,20 @@ describe('auth', () => {
   test('verifyAdminToken rejects token without admin:true', () => {
     const token = jwt.sign({ user: 'someone' }, 'test-secret-that-is-32-chars-long!!')
     expect(verifyAdminToken(token)).toBe(false)
+  })
+
+  test('isAuthenticated returns true for valid session cookie', () => {
+    const token = signAdminToken()
+    const req = {
+      cookies: { get: (name: string) => name === 'admin_session' ? { value: token } : undefined },
+    } as unknown as import('next/server').NextRequest
+    expect(isAuthenticated(req)).toBe(true)
+  })
+
+  test('isAuthenticated returns false when cookie is missing', () => {
+    const req = {
+      cookies: { get: () => undefined },
+    } as unknown as import('next/server').NextRequest
+    expect(isAuthenticated(req)).toBe(false)
   })
 })
