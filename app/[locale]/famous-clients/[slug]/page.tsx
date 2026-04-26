@@ -12,12 +12,12 @@ export async function generateStaticParams() {
   )
 }
 
-export default async function FamousClientDetailPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function FamousClientDetailPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale: rawLocale } = await params
+  const locale = rawLocale as 'fa' | 'en'
   const famousClients = await getClients()
-  const client = famousClients.find((c) => c.slug === params.slug)
+  const client = famousClients.find((c) => c.slug === slug)
   if (!client) notFound()
-
-  const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
   const t = await getTranslations('famousClients')
   const related = famousClients.filter((c) => c.slug !== client.slug).slice(0, 4)

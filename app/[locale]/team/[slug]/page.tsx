@@ -12,13 +12,14 @@ export async function generateStaticParams() {
   )
 }
 
-export default async function TeamDetailPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function TeamDetailPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale: rawLocale } = await params
+  const locale = rawLocale as 'fa' | 'en'
   const team = await getTeam()
-  const member = team.find((m) => m.slug === params.slug)
+  const member = team.find((m) => m.slug === slug)
   if (!member) notFound()
 
   const t = await getTranslations('team')
-  const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
   const colleagues = team.filter((m) => m.slug !== member.slug).slice(0, 3)
 

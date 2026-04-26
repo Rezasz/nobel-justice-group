@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getBlog } from '@/lib/content'
 import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
 import Container from '@/components/shared/Container'
 import BlogCard from '@/components/shared/BlogCard'
 
@@ -12,15 +13,19 @@ export async function generateStaticParams() {
   )
 }
 
-export default async function BlogDetailPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale: rawLocale } = await params
+  const locale = rawLocale as 'fa' | 'en'
   const posts = await getBlog()
-  const post = posts.find((p) => p.slug === params.slug)
+  const post = posts.find((p) => p.slug === slug)
   if (!post) notFound()
 
-  const locale = params.locale as 'fa' | 'en'
   const base = `/${locale}`
   const t = await getTranslations('blog')
   const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3)
+
+  const rawHtml = await Promise.resolve(marked.parse(post.body[locale] ?? ''))
+  const safeHtml = DOMPurify.sanitize(rawHtml)
 
   return (
     <>
@@ -42,7 +47,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
       </section>
       <section className="py-16 bg-navy">
         <Container size="md">
-          <div dangerouslySetInnerHTML={{ __html: marked.parse(post.body[locale] ?? '') as string }} />
+          <div dangerouslySetInnerHTML={{ __html: safeHtml }} />
         </Container>
       </section>
       <section className="py-16 bg-navy-light">

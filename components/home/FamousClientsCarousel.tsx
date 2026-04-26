@@ -1,5 +1,4 @@
-'use client'
-import { useTranslations, useLocale } from 'next-intl'
+import { getTranslations, getLocale } from 'next-intl/server'
 import type { FamousClient } from '@/data/types'
 import ClientCard from '@/components/shared/ClientCard'
 import SectionTitle from '@/components/shared/SectionTitle'
@@ -9,9 +8,9 @@ interface Props {
   clients: FamousClient[]
 }
 
-export default function FamousClientsCarousel({ clients }: Props) {
-  const t = useTranslations('home')
-  const locale = useLocale() as 'fa' | 'en'
+export default async function FamousClientsCarousel({ clients }: Props) {
+  const t = await getTranslations('home')
+  const locale = (await getLocale()) as 'fa' | 'en'
 
   return (
     <section className="py-20 bg-navy-light">

@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ['isomorphic-dompurify'],
+  },
 }
 
 export default withNextIntl(nextConfig)
