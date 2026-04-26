@@ -18,8 +18,11 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   async function handleLogout() {
-    await fetch('/api/admin/logout', { method: 'POST' })
-    router.push('/admin/login')
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' })
+    } finally {
+      router.push('/admin/login')
+    }
   }
 
   const sidebar = (
