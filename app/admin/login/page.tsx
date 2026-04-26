@@ -23,6 +23,8 @@ export default function AdminLogin() {
       } else {
         setError('رمز عبور اشتباه است')
       }
+    } catch {
+      setError('خطا در ارتباط با سرور')
     } finally {
       setLoading(false)
     }
