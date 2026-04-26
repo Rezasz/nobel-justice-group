@@ -36,8 +36,15 @@ export async function PUT(
   if (!VALID_COLLECTIONS.includes(collection as Collection)) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
-  const data = await req.json()
-  await writeJson(blobPath(collection as Collection), data)
-  revalidatePath('/', 'layout')
+  const data = await req.json().catch(() => null)
+  if (data === null) {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
+  try {
+    await writeJson(blobPath(collection as Collection), data)
+    revalidatePath('/', 'layout')
+  } catch {
+    return NextResponse.json({ error: 'Write failed' }, { status: 500 })
+  }
   return NextResponse.json({ ok: true })
 }

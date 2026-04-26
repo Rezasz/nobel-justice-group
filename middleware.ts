@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
 
   // Admin API: allow login through, protect everything else
   if (pathname.startsWith('/api/admin')) {
-    if (pathname === '/api/admin/login') return NextResponse.next()
+    if (pathname === '/api/admin/login' || pathname === '/api/admin/logout') return NextResponse.next()
     const token = req.cookies.get('admin_session')?.value
     if (!token || !verifyAdminToken(token)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

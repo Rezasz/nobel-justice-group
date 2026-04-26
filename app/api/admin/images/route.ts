@@ -9,10 +9,16 @@ export async function POST(req: NextRequest) {
 
   const form = await req.formData()
   const file = form.get('file') as File | null
-  const folder = (form.get('folder') as string | null) ?? 'misc'
+  const rawFolder = (form.get('folder') as string | null) ?? 'misc'
+  const folder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, '-')
 
   if (!file) {
     return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+  }
+
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return NextResponse.json({ error: 'Invalid file type. Allowed: JPEG, PNG, WebP, GIF' }, { status: 400 })
   }
 
   const timestamp = Date.now()
