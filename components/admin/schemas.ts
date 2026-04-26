@@ -13,6 +13,7 @@ export interface CollectionSchema {
   label: string
   addLabel: string
   displayField: string
+  idField?: string
   imageField?: string
   fields: Field[]
 }
@@ -91,8 +92,10 @@ export const SCHEMAS: Record<string, CollectionSchema> = {
     label: 'شرکا',
     addLabel: 'افزودن شریک',
     displayField: 'name',
+    idField: 'slug',
     imageField: 'logo',
     fields: [
+      { key: 'slug', label: 'Slug (شناسه)', type: 'slug', required: true },
       { key: 'name', label: 'نام شریک', type: 'text', required: true },
       { key: 'logo', label: 'لوگو', type: 'image', imageFolder: 'partners' },
     ],

@@ -39,7 +39,7 @@ export default function CollectionPage({ collection, schema }: Props) {
     const updated = isNew
       ? [...items, item]
       : items.map((i) => {
-          const idKey = schema.fields[0].key
+          const idKey = schema.idField ?? schema.fields[0].key
           return i[idKey] === item[idKey] ? item : i
         })
     const res = await fetch(`/api/admin/${collection}`, {
@@ -53,15 +53,20 @@ export default function CollectionPage({ collection, schema }: Props) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function deleteItem(item: Record<string, any>) {
-    const idKey = schema.fields[0].key
+    const idKey = schema.idField ?? schema.fields[0].key
     const updated = items.filter((i) => i[idKey] !== item[idKey])
-    await fetch(`/api/admin/${collection}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updated),
-    })
-    setItems(updated)
-    setDeleteConfirm(null)
+    try {
+      const res = await fetch(`/api/admin/${collection}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      })
+      if (!res.ok) throw new Error('Delete failed')
+      setItems(updated)
+      setDeleteConfirm(null)
+    } catch {
+      setError('خطا در حذف. دوباره تلاش کنید.')
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -99,7 +104,7 @@ export default function CollectionPage({ collection, schema }: Props) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {items.map((item) => {
-          const idKey = schema.fields[0].key
+          const idKey = schema.idField ?? schema.fields[0].key
           const id = item[idKey]
           const imageUrl = getImageUrl(item)
           const displayVal = getDisplayValue(item)

@@ -13,6 +13,15 @@ export default function ImageUpload({ value, folder, onChange }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function handleFile(file: File) {
+    const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!ALLOWED.includes(file.type)) {
+      setError('فقط فایل تصویری مجاز است (JPEG, PNG, WebP, GIF)')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('حجم تصویر نباید بیشتر از ۵ مگابایت باشد')
+      return
+    }
     setUploading(true)
     setError('')
     try {

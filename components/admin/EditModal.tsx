@@ -64,8 +64,11 @@ export default function EditModal({ schema, initial, onSave, onClose }: Props) {
     setBilingual(key, 'fa', value)
     if (isNew) {
       const slugField = schema.fields.find((f) => f.type === 'slug')
-      if (slugField && !form[slugField.key]) {
-        setField(slugField.key, slugify(value))
+      if (slugField) {
+        setForm((prev) => {
+          if (prev[slugField.key]) return prev  // don't overwrite manually-edited slug
+          return { ...prev, [slugField.key]: slugify(value) }
+        })
       }
     }
   }
@@ -114,7 +117,7 @@ export default function EditModal({ schema, initial, onSave, onClose }: Props) {
         <form onSubmit={handleSubmit} className="p-4 space-y-4" dir="rtl">
           {schema.fields.map((field) => {
             if (field.bilingual && field.type !== 'tags') {
-              const isNameField = field.key === 'name' || field.key === 'title' || field.key === 'question' || field.key === 'city'
+              const isNameField = field.key === schema.displayField
               return (
                 <BilingualField
                   key={field.key}
